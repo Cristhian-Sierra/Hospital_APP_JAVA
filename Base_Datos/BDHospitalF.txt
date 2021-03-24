@@ -1,0 +1,304 @@
+﻿create database Hospital;
+use Hospital;
+
+create table Estado(
+cod int not null,
+tipo varchar(50),
+primary key(cod)
+);
+
+create table Sede(
+cod int not null,
+nombre varchar(30),
+consultorio varchar(30),
+direccion varchar(30),
+primary key(cod)
+);
+
+create table Cod_tipo_id(
+cod int not null,
+tipo varchar(50),
+primary key(cod)
+);
+
+create table Municipio(
+cod int not null,
+nombre varchar(100),
+primary key(cod)
+);
+
+create table Paciente(
+num_id int not null,
+nombre varchar(100),
+fecha_nac date,
+cod_tipo_id int,
+cod_municipio int,
+foreign key(cod_tipo_id)
+references Cod_tipo_id(cod),
+foreign key(cod_municipio)
+references Municipio(cod),
+primary key(num_id)
+);
+
+create table Telefono_paciente(
+id_paciente int not null,
+foreign key(id_paciente)
+references Paciente(num_id),
+telefono varchar(10),
+primary key(id_paciente, telefono)
+);
+
+create table Especialidad(
+cod int not null,
+nombre varchar(100),
+primary key(cod)
+);
+
+create table Medico(
+num_id int not null, 
+nombre varchar(100),
+direccion varchar(30),
+cod_tipo int,
+cod_especialidad int,
+hora_i time,
+hora_f time,
+cod_municipio int,
+foreign key(cod_tipo)
+references Cod_tipo_id(cod),
+foreign key(cod_especialidad)
+references Especialidad(cod),
+foreign key(cod_municipio)
+references Municipio(cod),
+primary key(num_id)
+);
+
+create table Telefono_medico(
+id_medico int not null,
+foreign key(id_medico)
+references Medico(num_id),
+telefono varchar(10),
+primary key(id_medico, telefono)
+);
+
+create table Cita_medica(
+cod int not null,
+cod_estado int,
+cod_sede int, 
+id_paciente int,
+id_medico int,
+hora_c time,
+fecha_r date,
+cod_especialidad int,
+foreign key(cod_estado) 
+references Estado(cod),
+foreign key(cod_sede)
+references Sede(cod),
+foreign key(id_paciente)
+references Paciente(num_id),
+foreign key(id_medico)
+references Medico(num_id),
+foreign key (cod_especialidad)
+references Especialidad (cod),
+primary key(cod)
+);
+
+INSERT INTO `estado` (`cod`, `tipo`) VALUES
+(1, ' \'Realizada\''),
+(2, ' \'Incumplida\''),
+(3, ' \'Cancelada\'');
+
+insert into Sede values(01,'Camilo','Maximiliana','cll 40 sur');
+insert into Sede values(02,'UAP','Ortiz','dg 65 b sur');
+insert into Sede values(03,'Chico','Porvenir','trv 78 norte');
+insert into Sede values(04,'Antonio','Atlas','cll 10 d norte');
+insert into Sede values(05,'Bolivar','Torres','dg 15 sur');
+
+insert into Cod_tipo_id values(01,'cc');
+insert into Cod_tipo_id values(02,'ce');
+insert into Cod_tipo_id values(03,'ti');
+insert into Cod_tipo_id values(04,'rc');
+
+INSERT INTO `municipio` (`cod`, `nombre`) VALUES
+(25001, '	\'Agua de Dios\'	'),
+(25019, '	\'Albán\''),
+(25035, '	\'Anapoima\'	'),
+(25040, '	\'Anolaima\'	'),
+(25053, '	\'Arbeláez\'	'),
+(25086, '	\'Beltrán\'	'),
+(25095, '	\'Bituima\''),
+(25099, '	\'Bojacá\''),
+(25120, '	\'Cabrera\'	'),
+(25123, '	\'Cachipay\''),
+(25126, '	\'Cajicá\''),
+(25148, '	\'Caparrapí\'	'),
+(25151, '	\'Cáqueza\''),
+(25154, '	\'Carmen de Carupa\'	'),
+(25168, '	\'Chaguaní\''),
+(25175, '	\'Chía\''),
+(25178, '	\'Chipaque\''),
+(25181, '	\'Choachí\'	'),
+(25183, '	\'Chocontá\''),
+(25200, '	\'Cogua\''),
+(25214, '	\'Cota\''),
+(25224, '	\'Cucunubá\'	'),
+(25245, '	\'El Colegio\''),
+(25258, '	\'El Peñón\''),
+(25260, '	\'El Rosal\''),
+(25269, '	\'Facatativá\''),
+(25279, '	\'Fómeque\''),
+(25281, '	\'Fosca\''),
+(25286, '	\'Funza\''),
+(25288, '	\'Fúquene\'	'),
+(25290, '	\'Fusagasugá\''),
+(25293, '	\'Gachalá\''),
+(25295, '	\'Gachancipá\''),
+(25297, '	\'Gachetá\''),
+(25299, '	\'Gama\''),
+(25307, '	\'Girardot\'	'),
+(25312, '	\'Granada\''),
+(25317, '	\'Guachetá\'	'),
+(25320, '	\'Guaduas\'	'),
+(25322, '	\'Guasca	\''),
+(25324, '	\'Guataquí\'	'),
+(25326, '	\'Guatavita\'	'),
+(25328, '	\'Guayabal de Síquima\'	'),
+(25335, '	\'Guayabetal\''),
+(25339, '	\'Gutiérrez\'	'),
+(25368, '	\'Jerusalén\'	'),
+(25372, '	\'Junín	\''),
+(25377, '	\'La Calera	\''),
+(25386, '	\'La Mesa\''),
+(25394, '	\'La Palma\'	'),
+(25398, '	\'La Peña\'	'),
+(25402, '	\'La Vega\'	'),
+(25407, '	\'Lenguazaque	\''),
+(25426, '	\'Machetá\''),
+(25430, '	\'Madrid	\''),
+(25436, '	\'Manta	\''),
+(25438, '	\'Medina	\''),
+(25473, '	\'Mosquera\'	'),
+(25483, '	\'Nariño	\''),
+(25486, '	\'Nemocón\'	'),
+(25488, '	\'Nilo	\''),
+(25489, '	\'Nimaima\'	'),
+(25491, '	\'Nocaima	\''),
+(25506, '	\'Venecia\'	'),
+(25513, '	\'Pacho	\''),
+(25518, '	\'Paime	\''),
+(25524, '	\'Pandi	\''),
+(25530, '	\'Paratebueno	\''),
+(25535, '	\'Pasca	\''),
+(25572, '	\'Puerto Salgar\'	'),
+(25580, '	\'Pulí	\''),
+(25592, '	\'Quebradanegra\'	'),
+(25594, '	\'Quetame	\''),
+(25596, '	\'Quipile	\''),
+(25599, '	\'Apulo\''),
+(25612, '	\'Ricaurte\''),
+(25645, '	\'San Antonio del Tequendama\''),
+(25649, '	\'San Bernardo\''),
+(25653, '	\'San Cayetano\''),
+(25658, '	\'San Francisco\''),
+(25662, '	\'San Juan de Rioseco\''),
+(25718, '	\'Sasaima\''),
+(25736, '	\'Sesquilé\''),
+(25740, '	\'Sibaté	\''),
+(25743, '	\'Silvania\'	'),
+(25745, '	\'Simijaca\'	'),
+(25754, '	\'Soacha	\''),
+(25758, '	\'Sopó	\''),
+(25769, '	\'Subachoque\''),
+(25772, '	\'Suesca	\''),
+(25777, '	\'Supatá	\''),
+(25779, '	\'Susa	\''),
+(25781, '	\'Sutatausa\'	'),
+(25785, '	\'Tabio	\''),
+(25793, '	\'Tausa	\''),
+(25797, '	\'Tena	\''),
+(25799, '	\'Tenjo	\''),
+(25805, '	\'Tibacuy\'	'),
+(25807, '	\'Tibirita\''),
+(25815, '	\'Tocaima\''),
+(25817, '	\'Tocancipá\''),
+(25823, '	\'Topaipí\''),
+(25839, '	\'Ubalá	\''),
+(25841, '	\'Ubaque	\''),
+(25843, '	\'Ubaté	\''),
+(25845, '	\'Une	\''),
+(25851, '	\'Útica	\''),
+(25862, '	\'Vergara\'	'),
+(25867, '	\'Vianí\''),
+(25871, '	\'Villagómez\''),
+(25873, '	\'Villapinzón\''),
+(25875, '	\'Villeta\''),
+(25878, '	\'Viotá	\''),
+(25885, '	\'Yacopí\''),
+(25898, '	\'Zipacón\''),
+(25899, '	\'Zipaquirá\'');
+
+insert into Paciente values(10000,'Freddy Rojas','1976-05-21',01,25899 );
+insert into Paciente values(20000,'Lady Bernal','2002/6/1',03,25898 );
+insert into Paciente values(30000,'Fernando Castro','2000/1/28',01,25898 );
+insert into Paciente values(40000,'Santiago Aristoteles','1998/5/31',02,25898 );
+insert into Paciente values(50000,'Miguel Perez','2005/9/15',03,25898  );
+insert into Paciente values(60000,'Samuel Torres','1783/1/19',02,25899 );
+insert into Paciente values(70000,'Diego Ayala','1996/5/31',04,25899 );
+insert into Paciente values(80000,'John Wick','2000/6/25',01,25899 );
+insert into Paciente values(90000,'Han Solo','1995/12/3',01,25899 );
+insert into Paciente values(11000,'David Snchez','1977/2/19',02,25899 );
+
+insert into Telefono_paciente values(010000,'3205896471');
+insert into Telefono_paciente values(020000,'3205568452');
+insert into Telefono_paciente values(030000,'3205854849');
+insert into Telefono_paciente values(040000,'3205564671');
+insert into Telefono_paciente values(050000,'3105219846');
+insert into Telefono_paciente values(060000,'3211654855');
+insert into Telefono_paciente values(070000,'3000564985');
+insert into Telefono_paciente values(080000,'3489446548');
+insert into Telefono_paciente values(090000,'5941696471');
+insert into Telefono_paciente values(11000,'3206548574');
+
+insert into Especialidad values(01,'Optamologia');
+insert into Especialidad values(02,'Ginecologia');
+insert into Especialidad values(03,'Pediatria');
+insert into Especialidad values(04,'Dermatologia');
+insert into Especialidad values(05,'Anesteciologia');
+insert into Especialidad values(06,'Proctologia');
+insert into Especialidad values(07,'Urologia');
+insert into Especialidad values(08,'General');
+
+insert into Medico values(10001,'Juan Garcia','Carrera 7 # 84- 72',01,03,'06:00','14:00',25899);
+insert into Medico values(10002,'Angel Gomez','Calle 4 No. 5 – 10',01,01,'06:00','14:00',25899);
+insert into Medico values(10003,'Carmen Garcia','Calle 11 No. 4 - 14',02,02,'06:00','14:00',25899);
+insert into Medico values(10004,'Antonia Ruiz','Calle 10 No. 5-22',01,04,'06:00','14:00',25899);
+insert into Medico values(10005,'Carlos Munos','Carrera 20 No. 37-54',01,06,'06:00','14:00',25899);
+insert into Medico values(10006,'David Serrano','Cr.9 # 74-99',02,05,'14:00','20:00',25899);
+insert into Medico values(10007,'Lucia Saez','Cr.6 # 17-12',01,07,'14:00','20:00',25899);
+insert into Medico values(10008,'Marta Lozano','Calle 12# 2-65',02,02,'14:00','20:00',25899);
+insert into Medico values(10009,'Pablo Rubio','Cl.90 # 11a-54',01,03,'14:00','20:00',25899);
+insert into Medico values(10011,'Sergio Castillo','Carrera 20 No. 37-54',01,04,'14:00','20:00',25899);
+
+insert into Telefono_medico values(10001,'4563285796');
+insert into Telefono_medico values(10002,'5204545546');
+insert into Telefono_medico values(10003,'3012456546');
+insert into Telefono_medico values(10004,'8795464568');
+insert into Telefono_medico values(10005,'6456345230');
+insert into Telefono_medico values(10006,'6355045127');
+insert into Telefono_medico values(10007,'6302158452');
+insert into Telefono_medico values(10008,'7545468655');
+insert into Telefono_medico values(10009,'6314254045');
+insert into Telefono_medico values(10011,'3546864505');
+
+insert into Cita_medica values(01,01,02,10000,10001,'06:00','2019/10/15',4);
+insert into Cita_medica values(02,02,01,20000,10002,'07:00','2019/10/15',5);
+insert into Cita_medica values(03,01,02,30000,10003,'08:00','2019/10/16',7);
+insert into Cita_medica values(04,01,03,40000,10004,'09:00','2019/10/16',8);
+insert into Cita_medica values(05,02,04,50000,10005,'10:00','2019/10/17',8);
+insert into Cita_medica values(06,02,02,60000,10006,'11:00','2019/10/17',8);
+insert into Cita_medica values(07,01,05,70000,10007,'12:00','2019/10/18',2);
+insert into Cita_medica values(08,01,05,80000,10008,'13:00','2019/10/18',2);
+insert into Cita_medica values(09,01,01,90000,10009,'14:00','2019/10/19',1);
+insert into Cita_medica values(10,01,03,11000,10011,'15:00','2019/10/19',1);
+
+
+
