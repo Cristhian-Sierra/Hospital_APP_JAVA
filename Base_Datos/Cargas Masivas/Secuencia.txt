@@ -1,0 +1,13 @@
+--Crear secuencia y asociarl al codigo de la cita medica
+
+CREATE SEQUENCE cod_citas ON Cita_medica
+AS
+start 500
+increment by 3
+minvalue 500
+not cycle;
+
+ALTER TABLE Cita_medica ALTER COLUMN cod SET DEFAULT nextval('cod_citas');
+
+---Dado en caso de que no se actualicen los codigos
+UPDATE Cita_medica SET cod = nextval('cod_citas');

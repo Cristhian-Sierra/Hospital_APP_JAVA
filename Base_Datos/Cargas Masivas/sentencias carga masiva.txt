@@ -1,0 +1,16 @@
+load data local infile 'C:\Cargas Masivas\municipios_cundinamarca.txt'
+into table Municipio
+fields terminated by ','
+lines terminated by'\r\n';
+
+
+load data local infile 'C:\Users\user\Desktop\estado_de_la_cita.txt'
+into table Estado
+fields terminated by ','
+lines terminated by'\r\n';
+
+
+load data local infile 'C:\Users\user\Desktop\hora_cita.xlsx'
+into table Horario_c
+fields terminated by ','
+lines terminated by'\r\n';

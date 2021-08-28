@@ -1,0 +1,46 @@
+
+
+
+CREATE VIEW Citas_Mes_Medico (Id_Medico,Nombre_Medico,Codigo_Cita,Especialidad_Cita,Estado_Cita,Fecha_Cita)
+ AS
+
+--1
+CREATE OR REPLACE VIEW Citas_Mes_Medico(Id_Medico,Nombre_Medico,Codigo_Cita,Especialidad_Cita,Estado_Cita,Fecha_Cita)
+AS
+SELECT m.num_id, m.nombre, cm.cod, esp.nombre, est.tipo, cm.fecha_r 
+from Medico AS m, Cita_medica AS cm, Especialidad as esp, Estado AS est
+where (MONTH(fecha_r) = 05)  AND YEAR(fecha_r)=2020 AND m.num_id = 10009 AND esp.cod = cm.cod_especialidad
+AND est.cod = cm.cod_estado
+;
+
+
+--2
+CREATE OR REPLACE VIEW Citas_Mes_Paciente (Id_Paciente,Nombre_Paciente,Codigo_Cita,Especialidad_Cita,Estado_Cita,Fecha_Cita)
+ AS
+SELECT p.num_id, p.nombre, cm.cod, esp.nombre, est.tipo,cm.fecha_r 
+FROM Paciente AS p,Cita_medica AS cm, Especialidad AS esp, Estado AS est
+WHERE MONTH(fecha_r) = 05 AND (YEAR(fecha_r) = 2020) AND (p.num_id = 20000) AND (esp.cod = cm.cod_especialidad)
+AND (est.cod = cm.cod_estado) AND (cm.id_paciente = p.num_id)
+;
+
+--3
+
+
+
+CREATE OR REPLACE VIEW Citas_Incumplidas(Contador_Citas,Codigo_Estado_Cita,Estado_Cita)
+AS
+select count(estado.tipo),cita_medica.cod_estado,estado.tipo from cita_medica,estado where estado.cod=2 AND cita_medica.cod_estado = estado.cod;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
